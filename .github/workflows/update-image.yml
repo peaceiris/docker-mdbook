@@ -5,7 +5,7 @@ on:
   #   branches:
   #     - master
   schedule:
-    - cron: '11 11 */31 * *'
+    - cron: '11 11 */8 * *'
 
 env:
   DOCKER_BASE_NAME: docker.pkg.github.com/${{ github.repository }}/mdbook
