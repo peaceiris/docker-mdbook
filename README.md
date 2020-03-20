@@ -40,8 +40,8 @@ version: '3'
 services:
   mdbook:
     container_name: mdbook
-    image: peaceiris/mdbook:v0.3.5
-    # image: peaceiris/mdbook:v0.3.5-rust
+    image: peaceiris/mdbook:v0.3.6
+    # image: peaceiris/mdbook:v0.3.6-rust
     stdin_open: true
     tty: true
     ports:
