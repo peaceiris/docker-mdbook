@@ -20,7 +20,7 @@ jobs:
           - "alpine:3.11"
           - "rust:1.42-alpine3.11"
         version:
-          - "0.3.6"
+          - "0.3.7"
     steps:
       - uses: actions/checkout@v2
 
