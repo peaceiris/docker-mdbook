@@ -7,9 +7,11 @@ on:
     paths-ignore:
       - "**.md"
   release:
-    types: [published]
+    types: published
   pull_request:
-    types: [opened, synchronize]
+    types:
+      - opened
+      - synchronize
     paths-ignore:
       - "**.md"
 
@@ -18,8 +20,14 @@ env:
   DOCKER_HUB_BASE_NAME: peaceiris/mdbook
 
 jobs:
+  skipci:
+    runs-on: ubuntu-18.04
+    steps:
+      - run: echo "[skip ci] ${{ contains(github.event.head_commit.message, '[skip ci]') }}"
+
   hadolint:
     runs-on: macos-latest
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
     steps:
       - uses: actions/checkout@v2
       - run: brew install hadolint
@@ -27,6 +35,7 @@ jobs:
 
   push:
     runs-on: ubuntu-18.04
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
     needs: hadolint
     strategy:
       matrix:
