@@ -41,7 +41,7 @@ jobs:
       matrix:
         baseimage:
           - "alpine:3.12"
-          - "rust:1.42-alpine3.12"
+          - "rust:1.44-alpine3.12"
     steps:
       - uses: actions/checkout@v2
 
