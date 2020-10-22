@@ -67,6 +67,14 @@ docker-compose run --rm mdbook init
 
 
 
+## GitHub Actions for mdBook
+
+The mdBook Setup GitHub Action is recommended.
+
+- [peaceiris/actions-mdbook: GitHub Actions for mdBook (rust-lang/mdBook) ⚡️ Setup mdBook quickly and build your site fast. Linux (Ubuntu), macOS, and Windows are supported.](https://github.com/peaceiris/actions-mdbook)
+
+
+
 ## License
 
 - [MIT License - peaceiris/docker-mdbook]
