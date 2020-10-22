@@ -3,11 +3,11 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - "**.md"
   release:
-    types: published
+    types: [published]
   pull_request:
     types:
       - opened

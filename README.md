@@ -1,6 +1,6 @@
 <!-- https://shields.io/ -->
 
-[![license](https://img.shields.io/github/license/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/blob/main/LICENSE)
 [![release](https://img.shields.io/github/release/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/releases/latest)
 [![GitHub release date](https://img.shields.io/github/release-date/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/releases)
 [![GitHub Actions status](https://github.com/peaceiris/docker-mdbook/workflows/Docker%20Image%20CI/badge.svg)](https://github.com/peaceiris/docker-mdbook/actions)
@@ -71,7 +71,7 @@ docker-compose run --rm mdbook init
 
 - [MIT License - peaceiris/docker-mdbook]
 
-[MIT License - peaceiris/docker-mdbook]: https://github.com/peaceiris/docker-mdbook/blob/master/LICENSE
+[MIT License - peaceiris/docker-mdbook]: https://github.com/peaceiris/docker-mdbook/blob/main/LICENSE
 
 
 
