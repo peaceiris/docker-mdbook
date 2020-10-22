@@ -6,6 +6,7 @@ on:
       - update-image
   schedule:
     - cron: "11 11 */8 * *"
+  workflow_dispatch:
 
 env:
   DOCKER_BASE_NAME: docker.pkg.github.com/${{ github.repository }}/mdbook
