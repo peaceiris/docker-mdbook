@@ -40,7 +40,7 @@ jobs:
       - name: Set env
         run: |
           export TAG_NAME="v${{ matrix.version }}"
-          if [ "${{ startsWith( matrix.baseimage, 'rust:alpine') }}" = "true" ]; then
+          if [ "${{ startsWith( matrix.baseimage, 'rust:') }}" = "true" ]; then
               export TAG_NAME="${TAG_NAME}-rust"
           fi
           echo "PKG_TAG=${DOCKER_BASE_NAME}:${TAG_NAME}" >> ${GITHUB_ENV}
