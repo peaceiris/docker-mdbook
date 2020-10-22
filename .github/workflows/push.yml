@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_BASE_NAME: docker.pkg.github.com/${{ github.repository }}/mdbook
+  DOCKER_BASE_NAME: ghcr.io/peaceiris/mdbook
   DOCKER_HUB_BASE_NAME: peaceiris/mdbook
 
 jobs:
@@ -44,11 +44,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "${GITHUB_CONTEXT}"
-
       - name: Set env
         run: |
           if [ "${{ github.event_name }}" = 'release' ]; then
@@ -70,18 +65,13 @@ jobs:
       - run: docker images
       - run: docker run --rm ${PKG_TAG} --version
 
-      - name: Scan image
-        run: |
-          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-            -v ${HOME}/.cache:/root/.cache aquasec/trivy:latest --exit-code 1 ${HUB_TAG}
-
       - name: Login to Registries
         if: github.event_name != 'pull_request'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
-          echo "${GITHUB_TOKEN}" | docker login docker.pkg.github.com -u peaceiris --password-stdin
+          echo "${GH_PAT}" | docker login ghcr.io -u peaceiris --password-stdin
           echo "${DOCKER_HUB_TOKEN}" | docker login -u peaceiris --password-stdin
 
       - name: Push to GitHub Packages
