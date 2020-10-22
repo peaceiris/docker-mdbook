@@ -31,8 +31,8 @@ Alpine base Docker Image for [rust-lang/mdBook].
 
 | Image tag | Base Image | Image size | Notes |
 |---|---|---|---|
-| `peaceiris/mdbook:v0.x.x` | `alpine:3.12` | 17.8 MB | Small image |
-| `peaceiris/mdbook:v0.x.x-rust` | `rust:1.44-alpine3.12` | 765 MB | `mdbook test` subcommand is available |
+| `peaceiris/mdbook:v0.x.x` | `alpine:3.12` | 22.2MB | Small image |
+| `peaceiris/mdbook:v0.x.x-rust` | `rust:1.44-alpine3.12` | 508MB | `mdbook test` subcommand is available |
 
 ### Docker Compose
 
