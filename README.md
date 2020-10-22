@@ -21,6 +21,10 @@ Alpine base Docker Image for [rust-lang/mdBook].
 
 [![DockerHub Badge](https://dockeri.co/image/peaceiris/mdbook)][peaceiris/mdbook - Docker Hub]
 
+[ghcr.io/peaceiris/mdbook] is also available.
+
+[ghcr.io/peaceiris/mdbook]: https://github.com/users/peaceiris/packages/container/package/mdbook
+
 
 
 ## Getting started
