@@ -6,11 +6,11 @@ on:
       - main
     paths-ignore:
       - "**.md"
-  release:
-    types: [published]
   pull_request:
     paths-ignore:
       - "**.md"
+  release:
+    types: [published]
   workflow_dispatch:
 
 env:
