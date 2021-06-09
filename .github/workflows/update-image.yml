@@ -24,7 +24,7 @@ jobs:
           - "alpine:3.13"
           - "rust:1.51-alpine3.13"
         version:
-          - "0.4.9"
+          - "0.4.10"
           - "0.3.7"
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
