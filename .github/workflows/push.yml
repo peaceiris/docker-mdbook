@@ -19,21 +19,21 @@ env:
 
 jobs:
   hadolint:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     container:
-      image: 'ghcr.io/hadolint/hadolint:v2.4.1-alpine'
+      image: "ghcr.io/hadolint/hadolint:v2.6.0-alpine"
     steps:
       - uses: actions/checkout@v2.3.4
       - run: hadolint ./Dockerfile
 
   push:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: hadolint
     strategy:
       matrix:
         baseimage:
           - "alpine:3.13"
-          - "rust:1.51-alpine3.13"
+          - "rust:1.53-alpine3.13"
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
       DOCKER_BUILDKIT: 1
