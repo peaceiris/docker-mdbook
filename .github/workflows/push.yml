@@ -50,8 +50,8 @@ jobs:
           if [ "${{ startsWith( matrix.baseimage, 'rust:') }}" = "true" ]; then
               export TAG_NAME="${TAG_NAME}-rust"
           fi
-          echo "PKG_TAG=${DOCKER_BASE_NAME}:${TAG_NAME}" >> ${GITHUB_ENV}
-          echo "HUB_TAG=${DOCKER_HUB_BASE_NAME}:${TAG_NAME}" >> ${GITHUB_ENV}
+          echo "PKG_TAG=${DOCKER_BASE_NAME}:${TAG_NAME}" >> "${GITHUB_ENV}"
+          echo "HUB_TAG=${DOCKER_HUB_BASE_NAME}:${TAG_NAME}" >> "${GITHUB_ENV}"
 
       - name: Cache Docker layers
         uses: actions/cache@v2
@@ -79,11 +79,11 @@ jobs:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - run: docker run --rm ${PKG_TAG} --version
+      - run: docker run --rm "${PKG_TAG}" --version
       - run: docker images
 
       - name: Login to Registries
-        if: github.event_name != 'pull_request'
+        if: ${{ github.event_name != 'pull_request' }}
         env:
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
@@ -91,9 +91,9 @@ jobs:
           echo "${DOCKER_HUB_TOKEN}" | docker login -u peaceiris --password-stdin
 
       - name: Push to GitHub Packages
-        if: github.event_name != 'pull_request'
+        if: ${{ github.event_name != 'pull_request' }}
         run: docker push "${PKG_TAG}"
 
       - name: Push to Docker Hub
-        if: github.event_name != 'pull_request'
+        if: ${{ github.event_name != 'pull_request' }}
         run: docker push "${HUB_TAG}"
