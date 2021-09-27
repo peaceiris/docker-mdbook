@@ -13,6 +13,11 @@ on:
     types: [published]
   workflow_dispatch:
 
+permissions:
+  actions: write
+  contents: read
+  packages: write
+
 env:
   DOCKER_BASE_NAME: ghcr.io/peaceiris/mdbook
   DOCKER_HUB_BASE_NAME: peaceiris/mdbook
@@ -87,7 +92,7 @@ jobs:
         env:
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u peaceiris --password-stdin
+          echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u peaceiris --password-stdin
           echo "${DOCKER_HUB_TOKEN}" | docker login -u peaceiris --password-stdin
 
       - name: Push to GitHub Packages
