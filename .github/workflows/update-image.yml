@@ -45,14 +45,6 @@ jobs:
           echo "PKG_TAG=${DOCKER_BASE_NAME}:${TAG_NAME}" >> "${GITHUB_ENV}"
           echo "HUB_TAG=${DOCKER_HUB_BASE_NAME}:${TAG_NAME}" >> "${GITHUB_ENV}"
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx
-
       - run: docker version
 
       - name: Build ${{ matrix.baseimage }} base image
@@ -62,15 +54,10 @@ jobs:
               --tag "${PKG_TAG}" \
               --build-arg BASE_IMAGE="${{ matrix.baseimage }}" \
               --build-arg MDBOOK_VERSION="${{ matrix.version }}" \
-              --cache-from 'type=local,src=/tmp/.buildx-cache' \
-              --cache-to 'type=local,mode=max,dest=/tmp/.buildx-cache-new' \
+              --export-cache type=gha \
+              --import-cache type=gha \
               --output 'type=docker'
           docker tag "${PKG_TAG}" "${HUB_TAG}"
-
-      - name: Replace cache dir
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - run: docker run --rm "${PKG_TAG}" --version
       - run: docker images
