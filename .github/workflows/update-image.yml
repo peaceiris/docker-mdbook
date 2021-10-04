@@ -54,6 +54,7 @@ jobs:
               --tag "${PKG_TAG}" \
               --build-arg BASE_IMAGE="${{ matrix.baseimage }}" \
               --build-arg MDBOOK_VERSION="${{ matrix.version }}" \
+              --build-arg BUILDKIT_INLINE_CACHE=1 \
               --export-cache type=gha \
               --import-cache type=gha \
               --output 'type=docker'
