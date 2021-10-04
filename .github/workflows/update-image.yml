@@ -36,6 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
 
+      - uses: peaceiris/workflows/setup-docker@v0.11.0
+
       - name: Set env
         run: |
           export TAG_NAME="v${{ matrix.version }}"
@@ -44,8 +46,6 @@ jobs:
           fi
           echo "PKG_TAG=${DOCKER_BASE_NAME}:${TAG_NAME}" >> "${GITHUB_ENV}"
           echo "HUB_TAG=${DOCKER_HUB_BASE_NAME}:${TAG_NAME}" >> "${GITHUB_ENV}"
-
-      - run: docker version
 
       - name: Build ${{ matrix.baseimage }} base image
         run: |
