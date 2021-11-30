@@ -21,7 +21,7 @@ Alpine base Docker Image for [rust-lang/mdBook].
 
 [![DockerHub Badge](https://dockeri.co/image/peaceiris/mdbook)][peaceiris/mdbook - Docker Hub]
 
-[ghcr.io/peaceiris/mdbook] is also available.
+Docker images on GitHub Packages [ghcr.io/peaceiris/mdbook] are also available.
 
 [ghcr.io/peaceiris/mdbook]: https://github.com/users/peaceiris/packages/container/package/mdbook
 
@@ -31,8 +31,10 @@ Alpine base Docker Image for [rust-lang/mdBook].
 
 | Image tag | Base Image | Image size | Notes |
 |---|---|---|---|
-| `peaceiris/mdbook:v0.x.x` | `alpine:3.14` | 24MB | Small image |
+| `peaceiris/mdbook:v0.x.x` | `alpine:3.14` | 24MB | Minimum image |
 | `peaceiris/mdbook:v0.x.x-rust` | `rust:1.55-alpine3.14` | 880MB | `mdbook test` subcommand is available |
+| `ghcr.io/peaceiris/mdbook:v0.x.x` | `alpine:3.14` | 24MB | GitHub Packages: Minimum image |
+| `ghcr.io/peaceiris/mdbook:v0.x.x-rust` | `rust:1.55-alpine3.14` | 880MB | GitHub Packages: `mdbook test` subcommand is available |
 
 ### Docker Compose
 
@@ -44,8 +46,9 @@ version: '3'
 services:
   mdbook:
     container_name: mdbook
-    image: peaceiris/mdbook:v0.x.x
-    # OR image: ghcr.io/peaceiris/mdbook:v0.x.x
+    image: peaceiris/mdbook:v0.x.x            # Minimum image
+    # image: peaceiris/mdbook:v0.x.x-rust     # `mdbook test` subcommand is available
+    # image: ghcr.io/peaceiris/mdbook:v0.x.x  # Docker images on GitHub Packages
     stdin_open: true
     tty: true
     ports:
