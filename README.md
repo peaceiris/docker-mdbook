@@ -45,7 +45,7 @@ services:
   mdbook:
     container_name: mdbook
     image: peaceiris/mdbook:v0.x.x
-    # image: peaceiris/mdbook:v0.x.x-rust
+    # OR image: ghcr.io/peaceiris/mdbook:v0.x.x
     stdin_open: true
     tty: true
     ports:
