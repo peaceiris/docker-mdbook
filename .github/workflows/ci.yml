@@ -61,7 +61,7 @@ jobs:
 
       - name: Build ${{ matrix.baseimage }} base image
         run: |
-          DOCKER_SCOPE="mdbook-${TAG_NAME}"
+          DOCKER_SCOPE="docker-${TAG_NAME}"
           docker buildx create --use --driver docker-container
           docker buildx build . \
               --tag "${PKG_TAG}" \
