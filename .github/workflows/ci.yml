@@ -37,7 +37,7 @@ jobs:
       matrix:
         baseimage:
           - "alpine:3.16"
-          - "rust:1.60-alpine3.15"
+          - "rust:1.62-alpine3.16"
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
       DOCKER_BUILDKIT: 1
