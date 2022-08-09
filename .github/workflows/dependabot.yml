@@ -17,9 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: dependabot/fetch-metadata@v1.3.3
-        id: meta
-
       - name: Approve and Merge
         run: |
           gh pr checkout "${PR_URL}" # sets the upstream metadata for `gh pr status`
