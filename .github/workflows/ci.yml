@@ -63,9 +63,15 @@ jobs:
 
       - run: docker version
 
+      - uses: peaceiris/actions-export-envs@v1.0.0
+        id: envs
+
       - name: Build ${{ matrix.baseimage }} base image
+        env:
+          ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
+          ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
         run: |
-          DOCKER_SCOPE="docker-${TAG_NAME}"
+          DOCKER_SCOPE="action-image-${GITHUB_REF_NAME}"
           docker buildx create --use --driver docker-container
           docker buildx build . \
               --tag "${PKG_TAG}" \
