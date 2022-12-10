@@ -3,7 +3,7 @@ ARG BASE_IMAGE
 FROM rust:slim-buster AS builder
 
 ARG MDBOOK_VERSION
-ENV ARC="x86_64-unknown-linux-musl"
+ENV ARC="arm-unknown-linux-musleabi"
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     musl-tools

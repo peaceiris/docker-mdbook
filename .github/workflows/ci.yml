@@ -17,7 +17,7 @@ env:
   DOCKER_BASE_NAME: ghcr.io/peaceiris/mdbook
   DOCKER_HUB_BASE_NAME: peaceiris/mdbook
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
@@ -76,6 +76,7 @@ jobs:
               --tag "${PKG_TAG}" \
               --build-arg MDBOOK_VERSION="${MDBOOK_VERSION}" \
               --build-arg BASE_IMAGE="${{ matrix.baseimage }}" \
+              --platform "linux/arm64" \
               --cache-from "type=gha,scope=${DOCKER_SCOPE}" \
               --cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
               --output 'type=docker'
