@@ -23,12 +23,10 @@ concurrency:
 
 jobs:
   hadolint:
-    permissions: {}
     uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.12.0
 
   docker:
     runs-on: ubuntu-22.04
-    needs: hadolint
     timeout-minutes: 10
     permissions:
       actions: write
