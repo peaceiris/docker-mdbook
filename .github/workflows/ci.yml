@@ -62,7 +62,7 @@ jobs:
 
       - run: docker version
 
-      - uses: peaceiris/actions-export-envs@v1.0.1
+      - uses: peaceiris/actions-export-envs@v1.1.0
         id: envs
 
       - name: Build ${{ matrix.baseimage }} base image
