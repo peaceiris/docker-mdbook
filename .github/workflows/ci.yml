@@ -65,6 +65,10 @@ jobs:
       - uses: peaceiris/actions-export-envs@v1.1.0
         id: envs
 
+      - name: Setup buildx
+        run: |
+          docker buildx create --use --driver docker-container          
+
       - name: Build ${{ matrix.baseimage }} base image with cache
         if: ${{ github.event_name == 'pull_request' }}
         env:
@@ -72,7 +76,6 @@ jobs:
           ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
         run: |
           DOCKER_SCOPE="action-image-${GITHUB_REF_NAME}"
-          docker buildx create --use --driver docker-container
           docker buildx build . \
               --tag "${PKG_TAG}" \
               --build-arg MDBOOK_VERSION="${MDBOOK_VERSION}" \
@@ -84,8 +87,6 @@ jobs:
       - name: Build ${{ matrix.baseimage }} base image without cache
         if: ${{ github.event_name != 'pull_request' }}
         run: |
-          DOCKER_SCOPE="action-image-${GITHUB_REF_NAME}"
-          docker buildx create --use --driver docker-container
           docker buildx build . \
               --tag "${PKG_TAG}" \
               --build-arg MDBOOK_VERSION="${MDBOOK_VERSION}" \
