@@ -14,7 +14,7 @@ on:
       - "**.md"
 
 env:
-  DOCKER_BASE_NAME: ghcr.io/Hydroxycarbamide/mdbook
+  DOCKER_BASE_NAME: ghcr.io/hydroxycarbamide/mdbook
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
