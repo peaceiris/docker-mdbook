@@ -1,6 +1,6 @@
 ARG BASE_IMAGE
 
-FROM rust:slim-buster AS builder
+FROM rust:slim AS builder
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
