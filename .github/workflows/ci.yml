@@ -14,8 +14,7 @@ on:
       - "**.md"
 
 env:
-  DOCKER_BASE_NAME: ghcr.io/peaceiris/mdbook
-  DOCKER_HUB_BASE_NAME: peaceiris/mdbook
+  DOCKER_BASE_NAME: ghcr.io/Hydroxycarbamide/mdbook
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
@@ -35,8 +34,8 @@ jobs:
     strategy:
       matrix:
         baseimage:
-          - "alpine:3.16"
-          - "rust:1.65-alpine3.16"
+          - "alpine:latest"
+          - "rust:alpine"
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
       DOCKER_BUILDKIT: 1
@@ -104,20 +103,11 @@ jobs:
 
       - name: Login to Registries
         if: ${{ github.event_name != 'pull_request' }}
-        env:
-          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ayamebot --password-stdin
-          echo "${DOCKER_HUB_TOKEN}" | docker login -u peaceiris --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u hydroxycarbamide --password-stdin
 
       - name: Push to GitHub Packages
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           docker push "${PKG_TAG}"
           docker push "${PKG_TAG_LATEST}"
-
-      - name: Push to Docker Hub
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          docker push "${HUB_TAG}"
-          docker push "${HUB_TAG_LATEST}"
