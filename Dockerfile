@@ -2,8 +2,7 @@ ARG BASE_IMAGE
 
 FROM rust:alpine AS builder
 
-RUN apk update && \
-    apk add musl-dev
+RUN apk add --no-cache musl-dev
 ENV ARC="x86_64-unknown-linux-musl"
 RUN rustup target add "${ARC}"
 RUN cargo install mdbook --target "${ARC}"
