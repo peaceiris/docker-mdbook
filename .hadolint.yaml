@@ -1,4 +1,5 @@
 ignored:
   - DL3006 # warning: Always tag the version of an image explicitly
   - DL3008 # warning: Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`
+  - DL3018 # warning: Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`
   - DL3059 # info: Multiple consecutive `RUN` instructions. Consider consolidation.
