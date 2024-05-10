@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   hadolint:
-    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.19.2
+    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.19.3
 
   docker:
     runs-on: ubuntu-22.04
