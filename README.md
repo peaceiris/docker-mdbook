@@ -9,9 +9,9 @@
 
 
 
-## Alpine Base Docker Image for mdBook
+## Alpine-Based Docker Images for mdBook
 
-Alpine base Docker Image for [rust-lang/mdBook].
+Alpine-based Docker Images for [rust-lang/mdBook].
 
 [rust-lang/mdBook]: https://github.com/rust-lang/mdBook
 
