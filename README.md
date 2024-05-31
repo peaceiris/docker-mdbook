@@ -25,6 +25,14 @@ Docker images on GitHub Packages [ghcr.io/peaceiris/mdbook] are also available.
 CPU architectures amd64 and arm64 are supported.
 
 
+## Pre-installed preprocessors for mdBook
+
+- [mdbook-mermaid]
+
+[mdbook-mermaid]: https://github.com/badboy/mdbook-mermaid
+
+
+
 ## Getting started
 
 | Image tag | Base Image | Image size | Notes |
