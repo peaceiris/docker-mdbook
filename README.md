@@ -1,9 +1,6 @@
 <!-- https://shields.io/ -->
 
 [![license](https://img.shields.io/github/license/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/blob/main/LICENSE)
-[![release](https://img.shields.io/github/release/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/releases/latest)
-[![GitHub release date](https://img.shields.io/github/release-date/peaceiris/docker-mdbook.svg)](https://github.com/peaceiris/docker-mdbook/releases)
-[![GitHub Actions status](https://github.com/peaceiris/docker-mdbook/workflows/Docker%20Image%20CI/badge.svg)](https://github.com/peaceiris/docker-mdbook/actions)
 
 <img width="400" alt="Docker image for mdBook" src="./images/ogp.jpg">
 
@@ -25,6 +22,7 @@ Docker images on GitHub Packages [ghcr.io/peaceiris/mdbook] are also available.
 
 [ghcr.io/peaceiris/mdbook]: https://github.com/users/peaceiris/packages/container/package/mdbook
 
+CPU architectures amd64 and arm64 are supported.
 
 
 ## Getting started
@@ -38,7 +36,7 @@ Docker images on GitHub Packages [ghcr.io/peaceiris/mdbook] are also available.
 
 ### Docker Compose
 
-Create your `docker-compose.yml` like the following.
+Create your `compose.yml` like the following.
 
 ```yaml
 version: '3'
@@ -66,10 +64,10 @@ services:
 
 ```sh
 # Run "mdbook serve"
-docker-compose up
+docker compose up
 
 # Run a command of mdBook
-docker-compose run --rm mdbook init
+docker compose run --rm mdbook init
 ```
 
 
