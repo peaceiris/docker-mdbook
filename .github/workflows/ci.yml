@@ -23,7 +23,7 @@ jobs:
 
   docker:
     runs-on: ubuntu-22.04
-    timeout-minutes: 30
+    timeout-minutes: ${{ endsWith(github.ref_name, '/merge') && 30 || 60 }}
     permissions:
       actions: write
       contents: read
