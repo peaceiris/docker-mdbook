@@ -7,6 +7,7 @@ DOCKER_HUB_BASE_NAME := ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}
 DOCKER_BASE_NAME := ghcr.io/${DOCKER_HUB_BASE_NAME}
 DOCKER_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook = ' | awk '{print $$3}' | tr -d '"')
 MDBOOK_MERMAID_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-mermaid = ' | awk '{print $$3}' | tr -d '"')
+MDBOOK_TOC_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-toc = ' | awk '{print $$3}' | tr -d '"')
 DOCKER_TAG := v${DOCKER_VERSION}
 GITHUB_REF_NAME ?= local
 DOCKER_SCOPE := mdbook-${GITHUB_REF_NAME}
@@ -51,7 +52,8 @@ build:
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
 		--build-arg MDBOOK_VERSION="${DOCKER_VERSION}" \
 		--build-arg BASE_IMAGE="alpine:3.20" \
-		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}"
+		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
+		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}"
 
 .PHONY: build-rust
 build-rust:
@@ -67,7 +69,8 @@ build-rust:
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
 		--build-arg MDBOOK_VERSION="${DOCKER_VERSION}" \
 		--build-arg BASE_IMAGE="rust:1.78-alpine3.20" \
-		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}"
+		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
+		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}"
 
 .PHONY: test
 test:

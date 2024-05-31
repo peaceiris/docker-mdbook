@@ -28,8 +28,10 @@ CPU architectures amd64 and arm64 are supported.
 ## Pre-installed preprocessors for mdBook
 
 - [mdbook-mermaid]
+- [mdbook-toc]
 
 [mdbook-mermaid]: https://github.com/badboy/mdbook-mermaid
+[mdbook-toc]: https://github.com/badboy/mdbook-toc
 
 
 
