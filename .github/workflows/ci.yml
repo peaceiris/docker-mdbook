@@ -13,10 +13,6 @@ on:
     paths-ignore:
       - "**.md"
 
-env:
-  DOCKER_BASE_NAME: ghcr.io/peaceiris/mdbook
-  DOCKER_HUB_BASE_NAME: peaceiris/mdbook
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -34,90 +30,32 @@ jobs:
       packages: write
     strategy:
       matrix:
-        baseimage:
-          - "alpine:3.16"
-          - "rust:1.65-alpine3.16"
-    env:
-      DOCKER_CLI_EXPERIMENTAL: enabled
-      DOCKER_BUILDKIT: 1
+        target:
+          - "build"
+          - "build-rust"
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set env
-        run: |
-          MDBOOK_VERSION="$(make get-mdbook-version)"
-          TAG_NAME="v${MDBOOK_VERSION}"
-          TAG_NAME_LATEST="latest"
-          if [ "${{ startsWith( matrix.baseimage, 'rust:') }}" = "true" ]; then
-              export TAG_NAME="${TAG_NAME}-rust"
-          fi
-          {
-            echo "TAG_NAME=${TAG_NAME}"
-            echo "MDBOOK_VERSION=${MDBOOK_VERSION}"
-            echo "PKG_TAG=${DOCKER_BASE_NAME}:${TAG_NAME}"
-            echo "PKG_TAG_LATEST=${DOCKER_BASE_NAME}:${TAG_NAME_LATEST}"
-            echo "HUB_TAG=${DOCKER_HUB_BASE_NAME}:${TAG_NAME}"
-            echo "HUB_TAG_LATEST=${DOCKER_HUB_BASE_NAME}:${TAG_NAME_LATEST}"
-          } >> "${GITHUB_ENV}"
-
-      - run: docker version
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
 
       - uses: peaceiris/actions-export-envs@v1.1.0
         id: envs
 
-      - name: Setup buildx
-        run: |
-          docker buildx create --use --driver docker-container          
+      - run: make setup-buildx
 
-      - name: Build ${{ matrix.baseimage }} base image with cache
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Build with cache
+        run: make ${{ matrix.target }}
+        if: github.event_name == 'pull_request'
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
           ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
-        run: |
-          DOCKER_SCOPE="action-image-${GITHUB_REF_NAME}"
-          docker buildx build . \
-              --tag "${PKG_TAG}" \
-              --build-arg MDBOOK_VERSION="${MDBOOK_VERSION}" \
-              --build-arg BASE_IMAGE="${{ matrix.baseimage }}" \
-              --cache-from "type=gha,scope=${DOCKER_SCOPE}" \
-              --cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
-              --output 'type=docker'
 
-      - name: Build ${{ matrix.baseimage }} base image without cache
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          docker buildx build . \
-              --tag "${PKG_TAG}" \
-              --build-arg MDBOOK_VERSION="${MDBOOK_VERSION}" \
-              --build-arg BASE_IMAGE="${{ matrix.baseimage }}" \
-              --output 'type=docker'
-
-      - name: docker tag
-        run: |
-          docker tag "${PKG_TAG}" "${HUB_TAG}"
-          docker tag "${PKG_TAG}" "${PKG_TAG_LATEST}"
-          docker tag "${HUB_TAG}" "${HUB_TAG_LATEST}"
-
-      - run: docker images
-      - run: docker run --rm "${PKG_TAG}" --version
-
-      - name: Login to Registries
-        if: ${{ github.event_name != 'pull_request' }}
+      - run: make login
+        if: github.event_name != 'pull_request'
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ayamebot --password-stdin
-          echo "${DOCKER_HUB_TOKEN}" | docker login -u peaceiris --password-stdin
 
-      - name: Push to GitHub Packages
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          docker push "${PKG_TAG}"
-          docker push "${PKG_TAG_LATEST}"
-
-      - name: Push to Docker Hub
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          docker push "${HUB_TAG}"
-          docker push "${HUB_TAG_LATEST}"
+      - name: Build without cache
+        run: make ${{ matrix.target }}
+        if: github.event_name != 'pull_request'
+        env:
+          DOCKER_MULTI_PLATFORM: true
