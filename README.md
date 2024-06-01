@@ -29,9 +29,11 @@ CPU architectures amd64 and arm64 are supported.
 
 - [mdbook-mermaid]
 - [mdbook-toc]
+- [mdbook-admonish]
 
 [mdbook-mermaid]: https://github.com/badboy/mdbook-mermaid
 [mdbook-toc]: https://github.com/badboy/mdbook-toc
+[mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
 
 
 
@@ -39,10 +41,10 @@ CPU architectures amd64 and arm64 are supported.
 
 | Image tag | Base Image | Image size | Notes |
 |---|---|---|---|
-| `peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 27MB | Minimum image |
-| `peaceiris/mdbook:v0.x.x-rust` | `rust:1.78-alpine3.20` | 852MB | `mdbook test` subcommand is available |
-| `ghcr.io/peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 27MB | GitHub Packages: Minimum image |
-| `ghcr.io/peaceiris/mdbook:v0.x.x-rust` | `rust:1.78-alpine3.20` | 852MB | GitHub Packages: `mdbook test` subcommand is available |
+| `peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 30MB | Minimum image |
+| `peaceiris/mdbook:v0.x.x-rust` | `rust:1.78-alpine3.20` | 855MB | `mdbook test` subcommand is available |
+| `ghcr.io/peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 30MB | GitHub Packages: Minimum image |
+| `ghcr.io/peaceiris/mdbook:v0.x.x-rust` | `rust:1.78-alpine3.20` | 855MB | GitHub Packages: `mdbook test` subcommand is available |
 
 ### Docker Compose
 
