@@ -11,7 +11,8 @@ ARG MDBOOK_TOC_VERSION
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    musl-tools
+    musl-tools \
+    file
 RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         rustup target add "${ARC_AMD64}"; \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
@@ -21,17 +22,20 @@ RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         cargo install mdbook --version "${MDBOOK_VERSION}" --target "${ARC_AMD64}"; \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
         cargo install mdbook --version "${MDBOOK_VERSION}" --target "${ARC_ARM64}"; \
-    fi
+    fi && \
+    strip "$(which mdbook)"
 RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         cargo install mdbook-mermaid --version "${MDBOOK_MERMAID_VERSION}" --target "${ARC_AMD64}"; \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
         cargo install mdbook-mermaid --version "${MDBOOK_MERMAID_VERSION}" --target "${ARC_ARM64}"; \
-    fi
+    fi && \
+    strip "$(which mdbook-mermaid)"
 RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         cargo install mdbook-toc --version "${MDBOOK_TOC_VERSION}" --target "${ARC_AMD64}"; \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
         cargo install mdbook-toc --version "${MDBOOK_TOC_VERSION}" --target "${ARC_ARM64}"; \
-    fi
+    fi && \
+    strip "$(which mdbook-toc)"
 
 FROM $BASE_IMAGE
 
