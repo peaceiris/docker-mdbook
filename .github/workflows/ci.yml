@@ -22,7 +22,11 @@ jobs:
     uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.20.1
 
   docker:
-    runs-on: ubuntu-22.04
+    runs-on:
+      - nscloud-ubuntu-22.04-arm64-4x16-with-cache
+      - nscloud-cache-tag-e2e-tests
+      - nscloud-cache-size-50gb
+      - nscloud-exp-container-image-cache
     timeout-minutes: ${{ github.event_name == 'pull_request' && 15 || 180 }}
     permissions:
       actions: write
