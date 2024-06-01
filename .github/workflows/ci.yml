@@ -23,30 +23,13 @@ jobs:
 
   docker:
     runs-on: ubuntu-22.04
-    timeout-minutes: ${{ endsWith(github.ref_name, '/merge') && 30 || 60 }}
+    timeout-minutes: 60
     permissions:
       actions: write
       contents: read
       packages: write
-    strategy:
-      matrix:
-        target:
-          - "build"
-          - "build-rust"
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-
-      - uses: peaceiris/actions-export-envs@v1.1.0
-        id: envs
-
-      - run: make setup-buildx
-
-      - name: Build with cache
-        run: make ${{ matrix.target }}
-        if: github.event_name == 'pull_request'
-        env:
-          ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
-          ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
 
       - run: make login
         if: github.event_name != 'pull_request'
@@ -54,8 +37,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Build without cache
-        run: make ${{ matrix.target }}
-        if: github.event_name != 'pull_request'
+      - run: make setup-buildx
+
+      - uses: peaceiris/actions-export-envs@v1.1.0
+        id: envs
+
+      - run: make build
         env:
-          DOCKER_MULTI_PLATFORM: true
+          ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
+          ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
+          DOCKER_MULTI_PLATFORM: ${{ github.event_name != 'pull_request' }}
+
+      - run: make test

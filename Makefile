@@ -12,7 +12,7 @@ DOCKER_TAG := v${DOCKER_VERSION}
 GITHUB_REF_NAME ?= local
 DOCKER_SCOPE := mdbook-${GITHUB_REF_NAME}
 DOCKER_OUTPUT_TYPE ?= docker
-ifdef DOCKER_MULTI_PLATFORM
+ifeq (${CDOCKER_MULTI_PLATFORMI}, true)
 	DOCKER_PLATFORM := --platform linux/amd64,linux/arm64
 	DOCKER_OUTPUT_TYPE := registry
 endif
@@ -39,7 +39,10 @@ setup-buildx:
 	docker version
 
 .PHONY: build
-build:
+build: build-alpine build-rust
+
+.PHONY: build-alpine
+build-alpine:
 	docker buildx build . \
 		--tag "${PKG_NAME}" \
 		--tag "${HUB_NAME}" \
@@ -75,7 +78,4 @@ build-rust:
 .PHONY: test
 test:
 	@docker run --rm "${HUB_NAME}" --version
-
-.PHONY: test-rust
-test-rust:
 	@docker run --rm "${HUB_NAME}-rust" --version
