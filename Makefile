@@ -49,13 +49,13 @@ build-alpine:
 		--tag "${PKG_NAME_LATEST}" \
 		--tag "${HUB_NAME_LATEST}" \
 		${DOCKER_PLATFORM} \
-		--annotation "org.opencontainers.image.authors=peaceiris (Shohei Ueda)" \
-		--annotation "org.opencontainers.image.url=https://github.com/peaceiris/docker-mdbook" \
-		--annotation "org.opencontainers.image.documentation=https://github.com/peaceiris/docker-mdbook/blob/main/README.md" \
-		--annotation "org.opencontainers.image.source=https://github.com/peaceiris/docker-mdbook/blob/main/Dockerfile" \
-		--annotation "org.opencontainers.image.description=Alpine-based Docker Images for mdBook" \
-		--annotation "org.opencontainers.image.licenses=MIT" \
-		--annotation "org.opencontainers.image.version=${DOCKER_TAG}" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.authors=peaceiris (Shohei Ueda)" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.url=https://github.com/peaceiris/docker-mdbook" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.documentation=https://github.com/peaceiris/docker-mdbook/blob/main/README.md" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.source=https://github.com/peaceiris/docker-mdbook/blob/main/Dockerfile" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.description=Alpine-based Docker Images for mdBook" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.licenses=MIT" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.version=${DOCKER_TAG}" \
 		--output "type=${DOCKER_OUTPUT_TYPE}" \
 		--cache-from "type=gha,scope=${DOCKER_SCOPE}" \
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
@@ -72,13 +72,13 @@ build-rust:
 		--tag "${PKG_NAME_LATEST}-rust" \
 		--tag "${HUB_NAME_LATEST}-rust" \
 		${DOCKER_PLATFORM} \
-		--annotation "org.opencontainers.image.authors=peaceiris (Shohei Ueda)" \
-		--annotation "org.opencontainers.image.url=https://github.com/peaceiris/docker-mdbook" \
-		--annotation "org.opencontainers.image.documentation=https://github.com/peaceiris/docker-mdbook/blob/main/README.md" \
-		--annotation "org.opencontainers.image.source=https://github.com/peaceiris/docker-mdbook/blob/main/Dockerfile" \
-		--annotation "org.opencontainers.image.description=Alpine-based Docker Images for mdBook" \
-		--annotation "org.opencontainers.image.licenses=MIT" \
-		--annotation "org.opencontainers.image.version=${DOCKER_TAG}-rust" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.authors=peaceiris (Shohei Ueda)" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.url=https://github.com/peaceiris/docker-mdbook" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.documentation=https://github.com/peaceiris/docker-mdbook/blob/main/README.md" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.source=https://github.com/peaceiris/docker-mdbook/blob/main/Dockerfile" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.description=Alpine-based Docker Images for mdBook" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.licenses=MIT" \
+		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.version=${DOCKER_TAG}-rust" \
 		--output "type=${DOCKER_OUTPUT_TYPE}" \
 		--cache-from "type=gha,scope=${DOCKER_SCOPE}" \
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
