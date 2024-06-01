@@ -24,6 +24,9 @@ ARCH := $(shell uname -m)
 ifeq ($(ARCH), x86_64)
 	PLATFORM := amd64
 	CARGO_TARGET := x86_64-unknown-linux-musl
+else ifeq ($(ARCH), arm64)
+	PLATFORM := arm64
+	CARGO_TARGET := aarch64-unknown-linux-musl
 else ifeq ($(ARCH), aarch64)
 	PLATFORM := arm64
 	CARGO_TARGET := aarch64-unknown-linux-musl
