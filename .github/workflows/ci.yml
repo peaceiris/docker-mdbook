@@ -27,7 +27,7 @@ jobs:
       - nscloud-cache-tag-e2e-tests
       - nscloud-cache-size-50gb
       - nscloud-exp-container-image-cache
-    timeout-minutes: ${{ github.event_name == 'pull_request' && 15 || 60 }}
+    timeout-minutes: ${{ github.event_name == 'pull_request' && 15 || 30 }}
     permissions:
       actions: write
       contents: read
