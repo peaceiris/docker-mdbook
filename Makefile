@@ -12,14 +12,22 @@ DOCKER_TAG := v${DOCKER_VERSION}
 GITHUB_REF_NAME ?= local
 DOCKER_SCOPE := mdbook-${GITHUB_REF_NAME}
 DOCKER_OUTPUT_TYPE ?= docker
-ifeq (${DOCKER_MULTI_PLATFORM}, true)
-	DOCKER_PLATFORM := --platform linux/amd64,linux/arm64
+ifeq ($(IS_PULL_REQUEST), false)
 	DOCKER_OUTPUT_TYPE := registry
 endif
 PKG_NAME := ${DOCKER_BASE_NAME}:${DOCKER_TAG}
 HUB_NAME := ${DOCKER_HUB_BASE_NAME}:${DOCKER_TAG}
-PKG_NAME_LATEST := ${DOCKER_BASE_NAME}:latest
-HUB_NAME_LATEST := ${DOCKER_HUB_BASE_NAME}:latest
+PKG_LATEST := ${DOCKER_BASE_NAME}:latest
+HUB_LATEST := ${DOCKER_HUB_BASE_NAME}:latest
+
+ARCH := $(shell uname -m)
+ifeq ($(ARCH), x86_64)
+	PLATFORM := amd64
+	CARGO_TARGET := x86_64-unknown-linux-musl
+else ifeq ($(ARCH), aarch64)
+	PLATFORM := arm64
+	CARGO_TARGET := aarch64-unknown-linux-musl
+endif
 
 .PHONY: login-dockerhub
 login-dockerhub:
@@ -44,50 +52,41 @@ build: build-alpine build-rust
 .PHONY: build-alpine
 build-alpine:
 	docker buildx build . \
-		--tag "${PKG_NAME}" \
-		--tag "${HUB_NAME}" \
-		--tag "${PKG_NAME_LATEST}" \
-		--tag "${HUB_NAME_LATEST}" \
-		${DOCKER_PLATFORM} \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.authors=peaceiris (Shohei Ueda)" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.url=https://github.com/peaceiris/docker-mdbook" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.documentation=https://github.com/peaceiris/docker-mdbook/blob/main/README.md" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.source=https://github.com/peaceiris/docker-mdbook/blob/main/Dockerfile" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.description=Alpine-based Docker Images for mdBook" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.licenses=MIT" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.version=${DOCKER_TAG}" \
+		--tag "${HUB_NAME}-$(PLATFORM)" \
 		--output "type=${DOCKER_OUTPUT_TYPE}" \
 		--cache-from "type=gha,scope=${DOCKER_SCOPE}" \
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
 		--build-arg MDBOOK_VERSION="${DOCKER_VERSION}" \
 		--build-arg BASE_IMAGE="alpine:3.20" \
 		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
-		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}"
+		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}" \
+		--build-arg CARGO_TARGET="${CARGO_TARGET}"
 
 .PHONY: build-rust
 build-rust:
 	docker buildx build . \
-		--tag "${PKG_NAME}-rust" \
-		--tag "${HUB_NAME}-rust" \
-		--tag "${PKG_NAME_LATEST}-rust" \
-		--tag "${HUB_NAME_LATEST}-rust" \
-		${DOCKER_PLATFORM} \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.authors=peaceiris (Shohei Ueda)" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.url=https://github.com/peaceiris/docker-mdbook" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.documentation=https://github.com/peaceiris/docker-mdbook/blob/main/README.md" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.source=https://github.com/peaceiris/docker-mdbook/blob/main/Dockerfile" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.description=Alpine-based Docker Images for mdBook" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.licenses=MIT" \
-		--annotation "index,manifest,index-descriptor,manifest-descriptor:org.opencontainers.image.version=${DOCKER_TAG}-rust" \
+		--tag "${HUB_NAME}-rust-$(PLATFORM)" \
 		--output "type=${DOCKER_OUTPUT_TYPE}" \
 		--cache-from "type=gha,scope=${DOCKER_SCOPE}" \
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
 		--build-arg MDBOOK_VERSION="${DOCKER_VERSION}" \
 		--build-arg BASE_IMAGE="rust:1.78-alpine3.20" \
 		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
-		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}"
+		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}" \
+		--build-arg CARGO_TARGET="${CARGO_TARGET}"
 
 .PHONY: test
 test:
-	@docker run --rm "${HUB_NAME}" --version
-	@docker run --rm "${HUB_NAME}-rust" --version
+	@docker run --rm "${HUB_NAME}-$(PLATFORM)" --version
+	@docker run --rm "${HUB_NAME}-rust-$(PLATFORM)" --version
+
+.PHONY: merge
+merge:
+	docker buildx imagetools create --tag "${PKG_NAME}" "${HUB_NAME}-amd64" "${HUB_NAME}-arm64"
+	docker buildx imagetools create --tag "${HUB_NAME}" "${HUB_NAME}-amd64" "${HUB_NAME}-arm64"
+	docker buildx imagetools create --tag "${PKG_LATEST}" "${HUB_NAME}-amd64" "${HUB_NAME}-arm64"
+	docker buildx imagetools create --tag "${HUB_LATEST}" "${HUB_NAME}-amd64" "${HUB_NAME}-arm64"
+	docker buildx imagetools create --tag "${PKG_NAME}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"
+	docker buildx imagetools create --tag "${HUB_NAME}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"
+	docker buildx imagetools create --tag "${PKG_LATEST}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"
+	docker buildx imagetools create --tag "${HUB_LATEST}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"

@@ -17,15 +17,42 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+env:
+  IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   hadolint:
     uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.20.1
 
   docker:
-    runs-on: namespace-profile-ubuntu2204-amd64-8x16-with-cache
-    timeout-minutes: ${{ github.event_name == 'pull_request' && 15 || 30 }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: ${{ github.event_name == 'pull_request' && 5 || 10 }}
     permissions:
-      actions: write
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: true
+      matrix:
+        runner:
+          - namespace-profile-ubuntu2204-amd64-8x16-with-cache
+          - namespace-profile-ubuntu2204-arm64-8x16-with-cache
+    steps:
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      - run: make login
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - run: make build
+      - run: make test
+
+  merge:
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: docker
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    permissions:
       contents: read
       packages: write
     steps:
@@ -36,15 +63,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      # - run: make setup-buildx
-
-      # - uses: peaceiris/actions-export-envs@v1.1.0
-      #   id: envs
-
-      - run: make build
-        env:
-          # ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
-          # ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
-          DOCKER_MULTI_PLATFORM: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
-
-      - run: make test
+      - run: make merge
