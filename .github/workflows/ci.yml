@@ -2,8 +2,6 @@ name: CI
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "11 11 */8 * *"
   push:
     branches:
       - main
@@ -25,7 +23,7 @@ jobs:
     uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.20.1
 
   docker:
-    runs-on: ${{ matrix.runner }}
+    runs-on: namespace-profile-ubuntu2204-${{ matrix.arch }}-8x16-with-cache
     timeout-minutes: 6
     permissions:
       contents: read
@@ -33,9 +31,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        runner:
-          - namespace-profile-ubuntu2204-amd64-8x16-with-cache
-          - namespace-profile-ubuntu2204-arm64-8x16-with-cache
+        arch:
+          - amd64
+          - arm64
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
 
