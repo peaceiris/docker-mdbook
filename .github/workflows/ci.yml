@@ -22,8 +22,12 @@ jobs:
     uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.20.1
 
   docker:
-    runs-on: ubuntu-22.04
-    timeout-minutes: ${{ github.event_name == 'pull_request' && 15 || 180 }}
+    runs-on:
+      - nscloud-ubuntu-22.04-arm64-8x16-with-cache
+      - nscloud-cache-tag-e2e-tests
+      - nscloud-cache-size-50gb
+      - nscloud-exp-container-image-cache
+    timeout-minutes: ${{ github.event_name == 'pull_request' && 15 || 30 }}
     permissions:
       actions: write
       contents: read
@@ -38,13 +42,13 @@ jobs:
 
       - run: make setup-buildx
 
-      - uses: peaceiris/actions-export-envs@v1.1.0
-        id: envs
+      # - uses: peaceiris/actions-export-envs@v1.1.0
+      #   id: envs
 
       - run: make build
         env:
-          ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
-          ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
+          # ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
+          # ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
           DOCKER_MULTI_PLATFORM: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
 
       - run: make test
