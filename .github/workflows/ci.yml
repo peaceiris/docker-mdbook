@@ -46,6 +46,6 @@ jobs:
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
           ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
-          DOCKER_MULTI_PLATFORM: ${{ github.event_name != 'pull_request' }}
+          DOCKER_MULTI_PLATFORM: ${{ github.event_name == 'pull_request' && false || true }}
 
       - run: make test
