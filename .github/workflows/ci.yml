@@ -23,7 +23,7 @@ jobs:
 
   docker:
     runs-on:
-      - nscloud-ubuntu-22.04-arm64-8x16-with-cache
+      - nscloud-ubuntu-22.04-amd64-8x16-with-cache
       - nscloud-cache-tag-e2e-tests
       - nscloud-cache-size-50gb
       - nscloud-exp-container-image-cache
