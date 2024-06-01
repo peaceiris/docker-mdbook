@@ -8,6 +8,7 @@ ENV ARC_AMD64="x86_64-unknown-linux-musl"
 ENV ARC_ARM64="aarch64-unknown-linux-musl"
 ARG MDBOOK_MERMAID_VERSION
 ARG MDBOOK_TOC_VERSION
+ARG MDBOOK_LINKCHECK_VERSION
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -32,6 +33,11 @@ RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
         cargo install mdbook-toc --version "${MDBOOK_TOC_VERSION}" --target "${ARC_ARM64}"; \
     fi
+RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
+        cargo install mdbook-linkcheck --version "${MDBOOK_LINKCHECK_VERSION}" --target "${ARC_AMD64}"; \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
+        cargo install mdbook-linkcheck --version "${MDBOOK_LINKCHECK_VERSION}" --target "${ARC_ARM64}"; \
+    fi
 
 FROM $BASE_IMAGE
 
@@ -39,6 +45,7 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=builder /usr/local/cargo/bin/mdbook /usr/bin/mdbook
 COPY --from=builder /usr/local/cargo/bin/mdbook-mermaid /usr/bin/mdbook-mermaid
 COPY --from=builder /usr/local/cargo/bin/mdbook-toc /usr/bin/mdbook-toc
+COPY --from=builder /usr/local/cargo/bin/mdbook-linkcheck /usr/bin/mdbook-linkcheck
 
 WORKDIR /book
 ENTRYPOINT [ "/usr/bin/mdbook" ]
