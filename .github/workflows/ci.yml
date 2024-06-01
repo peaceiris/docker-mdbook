@@ -26,7 +26,7 @@ jobs:
 
   docker:
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: ${{ github.event_name == 'pull_request' && 5 || 10 }}
+    timeout-minutes: 6
     permissions:
       contents: read
       packages: write
@@ -51,7 +51,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     needs: docker
     runs-on: ubuntu-22.04
-    timeout-minutes: 5
+    timeout-minutes: 2
     permissions:
       contents: read
       packages: write
