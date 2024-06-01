@@ -39,9 +39,9 @@ CPU architectures amd64 and arm64 are supported.
 
 | Image tag | Base Image | Image size | Notes |
 |---|---|---|---|
-| `peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 24MB | Minimum image |
+| `peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 45MB | Minimum image |
 | `peaceiris/mdbook:v0.x.x-rust` | `rust:1.78-alpine3.20` | 880MB | `mdbook test` subcommand is available |
-| `ghcr.io/peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 24MB | GitHub Packages: Minimum image |
+| `ghcr.io/peaceiris/mdbook:v0.x.x` | `alpine:3.20` | 45MB | GitHub Packages: Minimum image |
 | `ghcr.io/peaceiris/mdbook:v0.x.x-rust` | `rust:1.78-alpine3.20` | 880MB | GitHub Packages: `mdbook test` subcommand is available |
 
 ### Docker Compose
