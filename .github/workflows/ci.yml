@@ -42,13 +42,13 @@ jobs:
 
       - run: make setup-buildx
 
-      - uses: peaceiris/actions-export-envs@v1.1.0
-        id: envs
+      # - uses: peaceiris/actions-export-envs@v1.1.0
+      #   id: envs
 
       - run: make build
         env:
-          ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
-          ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
+          # ACTIONS_RUNTIME_TOKEN: ${{ steps.envs.outputs.ACTIONS_RUNTIME_TOKEN }}
+          # ACTIONS_CACHE_URL: ${{ steps.envs.outputs.ACTIONS_CACHE_URL }}
           DOCKER_MULTI_PLATFORM: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
 
       - run: make test
