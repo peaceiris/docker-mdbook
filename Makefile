@@ -12,7 +12,7 @@ DOCKER_TAG := v${DOCKER_VERSION}
 GITHUB_REF_NAME ?= local
 DOCKER_SCOPE := mdbook-${GITHUB_REF_NAME}
 DOCKER_OUTPUT_TYPE ?= docker
-ifeq (${CDOCKER_MULTI_PLATFORMI}, true)
+ifeq (${DOCKER_MULTI_PLATFORM}, true)
 	DOCKER_PLATFORM := --platform linux/amd64,linux/arm64
 	DOCKER_OUTPUT_TYPE := registry
 endif
