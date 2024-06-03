@@ -1,0 +1,21 @@
+[book]
+authors = ["peaceiris"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Alpine-Based Docker Images for mdBook"
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html"]
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
+
+[output.html]
+additional-js = ["mermaid.min.js", "mermaid-init.js"]
+additional-css = ["mdbook-admonish.css", "/book/mdbook-admonish.css"]
