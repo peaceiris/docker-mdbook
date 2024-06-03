@@ -44,6 +44,7 @@ jobs:
 
       - run: make build
       - run: make test
+      - run: make test-build
 
   merge:
     if: ${{ github.event_name != 'pull_request' }}

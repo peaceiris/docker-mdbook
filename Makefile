@@ -81,11 +81,6 @@ build-rust:
 		--build-arg MDBOOK_ADMONISH_VERSION="${MDBOOK_ADMONISH_VERSION}" \
 		--build-arg CARGO_TARGET="${CARGO_TARGET}"
 
-.PHONY: test
-test:
-	@docker run --rm "${HUB_NAME}-$(PLATFORM)" --version
-	@docker run --rm "${HUB_NAME}-rust-$(PLATFORM)" --version
-
 .PHONY: merge
 merge:
 	docker buildx imagetools create --tag "${PKG_NAME}" "${HUB_NAME}-amd64" "${HUB_NAME}-arm64"
@@ -96,3 +91,17 @@ merge:
 	docker buildx imagetools create --tag "${HUB_NAME}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"
 	docker buildx imagetools create --tag "${PKG_LATEST}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"
 	docker buildx imagetools create --tag "${HUB_LATEST}-rust" "${HUB_NAME}-rust-amd64" "${HUB_NAME}-rust-arm64"
+
+.PHONY: test
+test:
+	@docker run --rm "${HUB_NAME}-$(PLATFORM)" --version
+	@docker run --rm "${HUB_NAME}-rust-$(PLATFORM)" --version
+
+.PHONY: test-build
+test-build:
+	docker run --rm -v "./example:/book" "${HUB_NAME}-$(PLATFORM)" build
+	docker run --rm -v "./example:/book" --entrypoint sh "${HUB_NAME}-$(PLATFORM)" -c 'mdbook-admonish install /book'
+
+.PHONY: run
+run:
+	docker run --rm -i -t -v "./example:/book" -p "3000:3000" -p "3001:3001" --entrypoint sh "${HUB_NAME}-$(PLATFORM)"
