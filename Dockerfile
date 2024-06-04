@@ -1,6 +1,7 @@
+# syntax=docker/dockerfile:1
 ARG BASE_IMAGE
 
-FROM rust:1.78-slim-bookworm AS builder
+FROM rust:1.78.0-slim-bookworm AS builder
 
 ARG TARGETPLATFORM
 ARG MDBOOK_VERSION
@@ -9,18 +10,28 @@ ARG MDBOOK_MERMAID_VERSION
 ARG MDBOOK_TOC_VERSION
 ARG MDBOOK_ADMONISH_VERSION
 
-RUN apt-get update && \
+ENV CARGO_TARGET_DIR="/usr/local/cargo-target"
+
+RUN rm -f /etc/apt/apt.conf.d/docker-clean && \
+    echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+RUN --mount=type=cache,sharing=locked,target=/var/cache/apt \
+    --mount=type=cache,sharing=locked,target=/var/lib/apt \
+    apt-get update && \
     apt-get install --no-install-recommends -y \
     musl-tools \
     file
 RUN rustup target add "${CARGO_TARGET}"
-RUN cargo install mdbook --version "${MDBOOK_VERSION}" --target "${CARGO_TARGET}" && \
+RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
+    cargo install mdbook --version "${MDBOOK_VERSION}" --target "${CARGO_TARGET}" && \
     strip "$(which mdbook)"
-RUN cargo install mdbook-mermaid --version "${MDBOOK_MERMAID_VERSION}" --target "${CARGO_TARGET}" && \
+RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
+    cargo install mdbook-mermaid --version "${MDBOOK_MERMAID_VERSION}" --target "${CARGO_TARGET}" && \
     strip "$(which mdbook-mermaid)"
-RUN cargo install mdbook-toc --version "${MDBOOK_TOC_VERSION}" --target "${CARGO_TARGET}" && \
+RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
+    cargo install mdbook-toc --version "${MDBOOK_TOC_VERSION}" --target "${CARGO_TARGET}" && \
     strip "$(which mdbook-toc)"
-RUN cargo install mdbook-admonish --version "${MDBOOK_ADMONISH_VERSION}" --target "${CARGO_TARGET}" && \
+RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
+    cargo install mdbook-admonish --version "${MDBOOK_ADMONISH_VERSION}" --target "${CARGO_TARGET}" && \
     strip "$(which mdbook-admonish)"
 
 FROM ${BASE_IMAGE}

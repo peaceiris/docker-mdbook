@@ -61,7 +61,7 @@ build-alpine:
 		--cache-from "type=gha,scope=${DOCKER_SCOPE}" \
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
 		--build-arg MDBOOK_VERSION="${DOCKER_VERSION}" \
-		--build-arg BASE_IMAGE="alpine:3.20" \
+		--build-arg BASE_IMAGE="alpine:3.20.0" \
 		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
 		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}" \
 		--build-arg MDBOOK_ADMONISH_VERSION="${MDBOOK_ADMONISH_VERSION}" \
@@ -75,7 +75,7 @@ build-rust:
 		--cache-from "type=gha,scope=${DOCKER_SCOPE}" \
 		--cache-to "type=gha,mode=max,scope=${DOCKER_SCOPE}" \
 		--build-arg MDBOOK_VERSION="${DOCKER_VERSION}" \
-		--build-arg BASE_IMAGE="rust:1.78-alpine3.20" \
+		--build-arg BASE_IMAGE="rust:1.78.0-alpine3.20" \
 		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
 		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}" \
 		--build-arg MDBOOK_ADMONISH_VERSION="${MDBOOK_ADMONISH_VERSION}" \
