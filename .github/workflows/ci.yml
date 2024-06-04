@@ -5,11 +5,21 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "**.md"
+    paths:
+      - "!**.md"
+      - ".github/workflows/ci.yml"
+      - "deps/Cargo.*"
+      - ".dockerignore"
+      - "Dockerfile"
+      - "Makefile"
   pull_request:
-    paths-ignore:
-      - "**.md"
+    paths:
+      - "!**.md"
+      - ".github/workflows/ci.yml"
+      - "deps/Cargo.*"
+      - ".dockerignore"
+      - "Dockerfile"
+      - "Makefile"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
@@ -19,9 +29,6 @@ env:
   IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  hadolint:
-    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.20.1
-
   docker:
     runs-on: namespace-profile-ubuntu2204-${{ matrix.arch }}-8x16-with-cache
     timeout-minutes: 6
@@ -63,3 +70,15 @@ jobs:
           DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - run: make merge
+
+  test:
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: merge
+    runs-on: ubuntu-22.04
+    timeout-minutes: 1
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      - run: make test-build-with-latest

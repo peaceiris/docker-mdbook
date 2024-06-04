@@ -1,0 +1,21 @@
+name: hadolint
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Dockerfile"
+      - ".hadolint.yaml"
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".hadolint.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.20.1
