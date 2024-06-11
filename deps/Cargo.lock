@@ -1128,9 +1128,9 @@ dependencies = [
 
 [[package]]
 name = "mdbook-admonish"
-version = "1.17.0"
+version = "1.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1f99cb897fa64b4606670156c0ca9d2df56cf5323297abac465f9b7c0d4705a"
+checksum = "cb20bb9c2ff287cb4ccc3b71596b71c3741e76a61f9b81267673eb01fa30bd7f"
 dependencies = [
  "anyhow",
  "clap",
