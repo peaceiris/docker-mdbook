@@ -110,3 +110,14 @@ test-build-with-latest:
 .PHONY: run
 run:
 	docker run --rm -i -t -v "./example:/book" -p "3000:3000" -p "3001:3001" --entrypoint sh "${HUB_NAME}-$(PLATFORM)"
+
+.PHONY: compose-build
+compose-build:
+	cd ./example && \
+	docker compose run --rm mdbook build && \
+	docker compose run --rm --entrypoint sh mdbook -c 'mdbook-admonish install /book'
+
+.PHONY: compose-serve
+compose-serve:
+	cd ./example && \
+	docker compose up
