@@ -50,37 +50,18 @@ CPU architectures amd64 and arm64 are supported.
 
 ### Docker Compose
 
-Create your `compose.yml` like the following.
-
-```yaml
-version: '3'
-
-services:
-  mdbook:
-    container_name: mdbook
-    image: peaceiris/mdbook:v0.x.x            # Minimum image
-    # image: peaceiris/mdbook:v0.x.x-rust     # `mdbook test` subcommand is available
-    # image: ghcr.io/peaceiris/mdbook:v0.x.x  # Docker images on GitHub Packages
-    stdin_open: true
-    tty: true
-    ports:
-      - 3000:3000
-      - 3001:3001
-    volumes:
-      - ${PWD}:/book
-    command:
-      - serve
-      - --hostname
-      - '0.0.0.0'
-```
-
-### Usage
+Please refer to the example project and the [`compose.yml`](https://github.com/peaceiris/docker-mdbook/blob/main/example/compose.yml).
 
 ```sh
+cd ./example
+
 # Run "mdbook serve"
 docker compose up
 
-# Run a command of mdBook
+# Run "mdbook build"
+docker compose run --rm mdbook build
+
+# Run "mdbook init"
 docker compose run --rm mdbook init
 ```
 
