@@ -31,7 +31,7 @@ env:
 jobs:
   docker:
     runs-on: namespace-profile-ubuntu2204-${{ matrix.arch }}-8x16-with-cache
-    timeout-minutes: 6
+    timeout-minutes: 20
     permissions:
       contents: read
       packages: write
