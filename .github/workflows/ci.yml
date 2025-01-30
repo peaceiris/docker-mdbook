@@ -30,7 +30,7 @@ env:
 
 jobs:
   docker:
-    runs-on: namespace-profile-ubuntu2204-${{ matrix.arch }}-8x16-with-cache
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
     permissions:
       contents: read
@@ -38,9 +38,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        arch:
-          - amd64
-          - arm64
+        runner:
+          - "ubuntu-24.04"
+          - "ubuntu-24.04-arm"
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
