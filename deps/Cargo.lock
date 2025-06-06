@@ -1077,9 +1077,9 @@ dependencies = [
 
 [[package]]
 name = "mdbook-admonish"
-version = "1.19.0"
+version = "1.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b06ac4775397a65983705ce7df2919cde995ee065e0ec47b787f77294ffb1a53"
+checksum = "06f63d7e50051134af1ec111efd45444df5f1238b54f1a987bb6fc6323822a79"
 dependencies = [
  "anyhow",
  "clap",
@@ -1089,7 +1089,7 @@ dependencies = [
  "mdbook",
  "once_cell",
  "path-slash",
- "pulldown-cmark 0.11.0",
+ "pulldown-cmark 0.13.0",
  "regex",
  "semver",
  "serde",
@@ -1508,9 +1508,9 @@ dependencies = [
 
 [[package]]
 name = "pulldown-cmark"
-version = "0.11.0"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8746739f11d39ce5ad5c2520a9b75285310dbfe78c541ccf832d38615765aec0"
+checksum = "1e8bbe1a966bd2f362681a44f6edce3c2310ac21e4d5067a6e7ec396297a6ea0"
 dependencies = [
  "bitflags 2.8.0",
  "getopts",
