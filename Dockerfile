@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG BASE_IMAGE
 
-FROM rust:1.88.0-slim-bookworm AS builder
+FROM rust:1.89.0-slim-bookworm AS builder
 
 ARG TARGETPLATFORM
 ARG MDBOOK_VERSION
