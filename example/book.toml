@@ -16,6 +16,8 @@ renderer = ["html"]
 command = "mdbook-admonish"
 assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
 
+[preprocessor.external-links]
+
 [output.html]
 additional-js = ["mermaid.min.js", "mermaid-init.js"]
 additional-css = ["mdbook-admonish.css", "/book/mdbook-admonish.css"]
