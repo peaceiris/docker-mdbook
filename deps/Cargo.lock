@@ -425,6 +425,7 @@ version = "0.1.0"
 dependencies = [
  "mdbook",
  "mdbook-admonish",
+ "mdbook-external-links",
  "mdbook-mermaid",
  "mdbook-toc",
 ]
@@ -1111,6 +1112,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "mdbook-external-links"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8bb30ec067291a0356ced10184d57384a67939eae837f653bba36b2d15ca61d6"
+dependencies = [
+ "anyhow",
+ "clap",
+ "mdbook",
+ "pulldown-cmark 0.9.6",
+ "pulldown-cmark-to-cmark",
+ "semver",
+ "serde_json",
+]
+
+[[package]]
 name = "mdbook-mermaid"
 version = "0.16.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1537,6 +1553,15 @@ name = "pulldown-cmark-escape"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "007d8adb5ddab6f8e3f491ac63566a7d5002cc7ed73901f72057943fa71ae1ae"
+
+[[package]]
+name = "pulldown-cmark-to-cmark"
+version = "10.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0194e6e1966c23cc5fd988714f85b18d548d773e81965413555d96569931833d"
+dependencies = [
+ "pulldown-cmark 0.9.6",
+]
 
 [[package]]
 name = "quote"

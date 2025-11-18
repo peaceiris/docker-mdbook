@@ -9,6 +9,7 @@ DOCKER_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook = ' | awk '{print
 MDBOOK_MERMAID_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-mermaid = ' | awk '{print $$3}' | tr -d '"')
 MDBOOK_TOC_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-toc = ' | awk '{print $$3}' | tr -d '"')
 MDBOOK_ADMONISH_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-admonish = ' | awk '{print $$3}' | tr -d '"')
+MDBOOK_EXTERNAL_LINKS_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-external-links = ' | awk '{print $$3}' | tr -d '"')
 DOCKER_TAG := v${DOCKER_VERSION}
 GITHUB_REF_NAME ?= local
 DOCKER_SCOPE := mdbook-${GITHUB_REF_NAME}
