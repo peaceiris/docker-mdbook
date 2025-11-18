@@ -4,4 +4,8 @@ language = "en"
 src = "src"
 title = "Alpine-Based Docker Images for mdBook"
 
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html"]
+
 [output.html]
