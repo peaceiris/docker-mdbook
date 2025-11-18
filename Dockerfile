@@ -8,7 +8,6 @@ ARG MDBOOK_VERSION
 ARG CARGO_TARGET
 ARG MDBOOK_MERMAID_VERSION
 ARG MDBOOK_TOC_VERSION
-ARG MDBOOK_ADMONISH_VERSION
 
 ENV CARGO_TARGET_DIR="/usr/local/cargo-target"
 
@@ -30,9 +29,6 @@ RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
 RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
     cargo install mdbook-toc --version "${MDBOOK_TOC_VERSION}" --target "${CARGO_TARGET}" && \
     strip "$(which mdbook-toc)"
-RUN --mount=type=cache,sharing=locked,target=/usr/local/cargo-target \
-    cargo install mdbook-admonish --version "${MDBOOK_ADMONISH_VERSION}" --target "${CARGO_TARGET}" && \
-    strip "$(which mdbook-admonish)"
 
 FROM ${BASE_IMAGE}
 
@@ -40,7 +36,6 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 COPY --from=builder /usr/local/cargo/bin/mdbook /usr/bin/mdbook
 COPY --from=builder /usr/local/cargo/bin/mdbook-mermaid /usr/bin/mdbook-mermaid
 COPY --from=builder /usr/local/cargo/bin/mdbook-toc /usr/bin/mdbook-toc
-COPY --from=builder /usr/local/cargo/bin/mdbook-admonish /usr/bin/mdbook-admonish
 
 WORKDIR /book
 ENTRYPOINT [ "/usr/bin/mdbook" ]
