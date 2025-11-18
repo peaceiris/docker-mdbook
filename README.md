@@ -29,11 +29,9 @@ CPU architectures amd64 and arm64 are supported.
 
 - [mdbook-mermaid]
 - [mdbook-toc]
-- [mdbook-admonish]
 
 [mdbook-mermaid]: https://github.com/badboy/mdbook-mermaid
 [mdbook-toc]: https://github.com/badboy/mdbook-toc
-[mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
 
 
 

@@ -8,7 +8,6 @@ DOCKER_BASE_NAME := ghcr.io/${DOCKER_HUB_BASE_NAME}
 DOCKER_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook = ' | awk '{print $$3}' | tr -d '"')
 MDBOOK_MERMAID_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-mermaid = ' | awk '{print $$3}' | tr -d '"')
 MDBOOK_TOC_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-toc = ' | awk '{print $$3}' | tr -d '"')
-MDBOOK_ADMONISH_VERSION := $(shell cat ./deps/Cargo.toml | grep 'mdbook-admonish = ' | awk '{print $$3}' | tr -d '"')
 DOCKER_TAG := v${DOCKER_VERSION}
 GITHUB_REF_NAME ?= local
 DOCKER_SCOPE := mdbook-${GITHUB_REF_NAME}
@@ -64,7 +63,6 @@ build-alpine:
 		--build-arg BASE_IMAGE="alpine:3.20.0" \
 		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
 		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}" \
-		--build-arg MDBOOK_ADMONISH_VERSION="${MDBOOK_ADMONISH_VERSION}" \
 		--build-arg CARGO_TARGET="${CARGO_TARGET}"
 
 .PHONY: build-rust
@@ -78,7 +76,6 @@ build-rust:
 		--build-arg BASE_IMAGE="rust:1.78.0-alpine3.20" \
 		--build-arg MDBOOK_MERMAID_VERSION="${MDBOOK_MERMAID_VERSION}" \
 		--build-arg MDBOOK_TOC_VERSION="${MDBOOK_TOC_VERSION}" \
-		--build-arg MDBOOK_ADMONISH_VERSION="${MDBOOK_ADMONISH_VERSION}" \
 		--build-arg CARGO_TARGET="${CARGO_TARGET}"
 
 .PHONY: merge
@@ -100,12 +97,10 @@ test:
 .PHONY: test-build
 test-build:
 	docker run --rm -v "./example:/book" "${HUB_NAME}-$(PLATFORM)" build
-	docker run --rm -v "./example:/book" --entrypoint sh "${HUB_NAME}-$(PLATFORM)" -c 'mdbook-admonish install /book'
 
 .PHONY: test-build-with-latest
 test-build-with-latest:
 	docker run --rm -v "./example:/book" "${HUB_LATEST}" build
-	docker run --rm -v "./example:/book" --entrypoint sh "${HUB_LATEST}" -c 'mdbook-admonish install /book'
 
 .PHONY: run
 run:
@@ -114,8 +109,7 @@ run:
 .PHONY: compose-build
 compose-build:
 	cd ./example && \
-	docker compose run --rm mdbook build && \
-	docker compose run --rm --entrypoint sh mdbook -c 'mdbook-admonish install /book'
+	docker compose run --rm mdbook build
 
 .PHONY: compose-serve
 compose-serve:
