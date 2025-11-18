@@ -8,4 +8,8 @@ title = "Alpine-Based Docker Images for mdBook"
 command = "mdbook-toc"
 renderer = ["html"]
 
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
 [output.html]
+additional-js = ["mermaid.min.js", "mermaid-init.js"]
