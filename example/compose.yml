@@ -1,7 +1,7 @@
 services:
   mdbook:
     container_name: mdbook
-    image: peaceiris/mdbook:v0.4.40-rust
+    image: peaceiris/mdbook:v0.5.0-rust
     stdin_open: true
     tty: true
     ports:
