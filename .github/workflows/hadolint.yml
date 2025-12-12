@@ -18,4 +18,4 @@ concurrency:
 
 jobs:
   lint:
-    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.21.2
+    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.21.3
