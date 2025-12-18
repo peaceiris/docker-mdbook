@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG BASE_IMAGE=alpine:3.23.0
+ARG BASE_IMAGE=alpine:3.23.2
 
 FROM rust:1.92.0-slim-bookworm AS builder
 
