@@ -1073,9 +1073,9 @@ dependencies = [
 
 [[package]]
 name = "mdbook-toc"
-version = "0.15.2"
+version = "0.15.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4587e035e965acc892fb0ab518cebea04031dc6f2c7267f2ca8f5a0455cd5879"
+checksum = "5c75efe42113c057880d65c59e67ad982586feb36d8141f92a9e1b84ce13c61a"
 dependencies = [
  "clap",
  "log",
