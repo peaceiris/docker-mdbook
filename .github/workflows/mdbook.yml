@@ -6,12 +6,12 @@ on:
       - main
     paths:
       - ".github/workflows/mdbook.yml"
-      - "examples/**"
+      - "example/**"
       - "Makefile"
   pull_request:
     paths:
       - ".github/workflows/mdbook.yml"
-      - "examples/**"
+      - "example/**"
       - "Makefile"
 
 concurrency:

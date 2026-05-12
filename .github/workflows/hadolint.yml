@@ -5,10 +5,12 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/hadolint.yml"
       - "Dockerfile"
       - ".hadolint.yaml"
   pull_request:
     paths:
+      - ".github/workflows/hadolint.yml"
       - "Dockerfile"
       - ".hadolint.yaml"
 
@@ -18,4 +20,6 @@ concurrency:
 
 jobs:
   lint:
-    uses: peaceiris/workflows/.github/workflows/hadolint.yml@v0.21.3
+    permissions:
+      contents: read
+    uses: peaceiris/workflows/.github/workflows/hadolint.yml@abcd9011b4dcbb803ab9454459030da9b9f0b2ab # v0.21.3
