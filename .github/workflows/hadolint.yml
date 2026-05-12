@@ -22,4 +22,4 @@ jobs:
   lint:
     permissions:
       contents: read
-    uses: peaceiris/workflows/.github/workflows/hadolint.yml@abcd9011b4dcbb803ab9454459030da9b9f0b2ab # v0.21.3
+    uses: peaceiris/workflows/.github/workflows/hadolint.yml@99f66a30a38f806fd0df9014275c7cef0b6d9ca5 # v0.21.6
