@@ -3,10 +3,22 @@
   "extends": [
     "local>peaceiris/renovate-config"
   ],
+  "major": { "minimumReleaseAge": "63 days" },
+  "minor": { "minimumReleaseAge": "21 days" },
+  "patch": { "minimumReleaseAge": "14 days" },
   "packageRules": [
     {
-      "automerge": false,
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": ["/.*/"],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "mdbook",
+        "peaceiris/mdbook",
+        "rust",
+        "alpine"
+      ],
+      "automerge": true,
       "automergeStrategy": "squash"
     }
   ]
