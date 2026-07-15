@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG BASE_IMAGE=alpine:3.24.1
 
-FROM rust:1.96.0-slim-bookworm AS builder
+FROM rust:1.96.1-slim-bookworm AS builder
 
 ARG TARGETPLATFORM
 ARG MDBOOK_VERSION
